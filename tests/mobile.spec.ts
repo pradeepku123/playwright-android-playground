@@ -7,16 +7,17 @@ test("has title", async ({ page }) => {
     console.log(`Model: ${device.model()}`);
     console.log(`Serial: ${device.serial()}`);
   });
-  await test.step(`take a screenshot`, async () => {
-    await device.screenshot({ path: "./device.png" });
-  });
   await test.step(`Launch Chrome browser.`, async () => {
     await device.shell("am force-stop com.android.chrome");
     const context = await device.launchBrowser();
   });
   await test.step(`Launch Chrome browser.`, async () => {
-    await page.goto("https://webkit.org/");
+    await page.goto("https://playwright.dev/");
     console.log(await page.evaluate(() => window.location.href));
-    await page.screenshot({ path: "page.png" });
+    await page.screenshot({ path: "./screenshot/pradeep.png" });
+    await expect(page.getByRole("link", { name: "Get started" })).toBeVisible();
+    await expect(page.locator("h1")).toContainText(
+      "Playwright enables reliable end-to-end testing for modern web apps."
+    );
   });
 });
